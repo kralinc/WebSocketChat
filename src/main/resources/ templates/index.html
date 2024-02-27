@@ -8,14 +8,19 @@
         <!-- <script> htmx.logAll() </script> -->
         <h1>Chatroom</h1>
         <div id="app">
-            <p v-if="connected">Connected!</p>
-            <button v-if="!connected" @click="connect">Connect</button>
-            <div id="form">
-                <input v-model="message">
-                <button @click="sendMessage">Send</button>
+            <div v-if="!connected">
+                <label>Server name: </label>
+                <input v-model="brokerUrl">
+                <button @click="establishNewSTOMPConnection">Connect</button>
             </div>
-            <div id="messages">
-                <p v-for="msg in messages" :key="msg.message"><b>{{msg.name}}:</b> {{msg.message}}</p>
+            <div v-if="connected">
+                <div id="form">
+                    <input v-model="message" @keyup.enter="sendMessage">
+                    <button @click="sendMessage">Send</button>
+                </div>
+                <div id="messages">
+                    <p v-for="msg in messages" :key="msg.message"><b>{{msg.name}}:</b> {{msg.message}}</p>
+                </div>
             </div>
         </div>
         <script src="js/index.js"></script>
